@@ -16,11 +16,15 @@ after_success:
     docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com;
     docker tag web registry.heroku.com/{{cookiecutter.app_name}}-prod/web;
     docker push registry.heroku.com/{{cookiecutter.app_name}}-prod/web;
+    heroku container:push web --app {{cookiecutter.app_name}}-prod
+    heroku container:release web --app {{cookiecutter.app_name}}-prod
     fi
   - if [ "$TRAVIS_BRANCH" == "qa" ]; then
     docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com;
     docker tag web registry.heroku.com/{{cookiecutter.app_name}}-qa/web;
     docker push registry.heroku.com/{{cookiecutter.app_name}}-qa/web;
+    heroku container:push web --app {{cookiecutter.app_name}}-qa
+    heroku container:release web --app {{cookiecutter.app_name}}-qa
     fi
 
 notifications:
